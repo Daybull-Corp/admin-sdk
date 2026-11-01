@@ -16,6 +16,8 @@ import "github.com/daybull/admin-sdk/module"
 | `module.Deps` | Çekirdeğin verdiği servisler: DB, logger, `Auditor`, `Settings` (modülün kendi ayar değerleri) |
 | `module.Protect` | Operasyonu yetkiye bağlayarak kaydeder |
 
+`licensing` paketi: kurulum lisansının biçimi (`Sign`, `Parse`, `LoadKey`). Çekirdek doğrular; satıcı tarafı (lisans aracı, kurulum modülü) imzalar.
+
 Modül yazma rehberi: admin-core reposunda `docs/MODUL-YAZMA.md`.
 
 ## Sürümleme
