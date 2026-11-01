@@ -8,7 +8,7 @@
 // Sürüm geçmişi:
 //
 //	1: çekirdek içinde pkg/module
-//	2: ayrı repo github.com/daybull/admin-sdk/module
+//	2: ayrı repo github.com/daybull-corp/admin-sdk/module
 //	3: Manifest.Depends (modül bağımlılığı), Manifest.Settings + Deps.Settings (modül ayarları)
 //	   + (geriye uyumlu) Manifest.Packages + Deps.Package (satış paketleri, lisansla seçilir)
 package module
