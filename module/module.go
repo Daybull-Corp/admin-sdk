@@ -10,6 +10,7 @@
 //	1: çekirdek içinde pkg/module
 //	2: ayrı repo github.com/daybull/admin-sdk/module
 //	3: Manifest.Depends (modül bağımlılığı), Manifest.Settings + Deps.Settings (modül ayarları)
+//	   + (geriye uyumlu) Manifest.Packages + Deps.Package (satış paketleri, lisansla seçilir)
 package module
 
 import (
@@ -55,6 +56,20 @@ type Manifest struct {
 	Depends []string `json:"depends,omitempty" doc:"Bu modülün çalışması için gereken modüller"`
 	// Settings, müşteri bazında panelden değiştirilebilen ayarlardır.
 	Settings []Setting `json:"settings,omitempty" doc:"Modül ayarları (panelde form olarak gösterilir)"`
+	// Packages, modülün satış paketleridir (dar → geniş sırayla). Hangisinin açık
+	// olduğunu imzalı lisans söyler; lisans paket belirtmezse ilki (en dar),
+	// geliştirmede lisans yoksa sonuncusu (en geniş) kullanılır. Boşsa modül paketsizdir.
+	Packages []Package `json:"packages,omitempty" doc:"Satış paketleri (dar → geniş)"`
+}
+
+// Package, modülün bir satış paketidir. Features, paketin açtığı özellik ve
+// sınırlardır (modüle özgü anahtarlar; panel karşılaştırma tablosu için).
+// Modül, Deps.Package.Key'e göre kendi kurallarını uygular.
+type Package struct {
+	Key         string         `json:"key" doc:"Paket anahtarı (küçük harf, rakam, tire)" example:"kurumsal"`
+	Name        string         `json:"name" example:"Kurumsal"`
+	Description string         `json:"description,omitempty"`
+	Features    map[string]any `json:"features,omitempty" doc:"Özellik → değer (bool ya da sayı)"`
 }
 
 // Permission, modülün tanımladığı bir yetkidir. Key "<modül-id>." ile başlamalıdır.
@@ -77,6 +92,7 @@ type Deps struct {
 	Log      *slog.Logger
 	Audit    Auditor
 	Settings Settings // modülün kendi ayarları (Manifest.Settings)
+	Package  Package  // lisansın açtığı paket (Manifest.Packages'tan biri; paketsiz modülde boş)
 }
 
 // Auditor, denetim kaydı yazar. Kullanıcı ve IP bilgisi ctx'ten otomatik alınır.
