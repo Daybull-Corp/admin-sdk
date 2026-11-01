@@ -1,9 +1,9 @@
 # admin-sdk
 
-[admin-core](https://github.com/daybull/admin-core) ile modüller arasındaki **sözleşme**. Modüller çekirdeğe değil, sadece bu pakete (ve huma, pgx) bağımlıdır.
+[admin-core](https://github.com/daybull-corp/admin-core) ile modüller arasındaki **sözleşme**. Modüller çekirdeğe değil, sadece bu pakete (ve huma, pgx) bağımlıdır.
 
 ```go
-import "github.com/daybull/admin-sdk/module"
+import "github.com/daybull-corp/admin-sdk/module"
 ```
 
 ## İçerik
@@ -31,5 +31,5 @@ Modül yazma rehberi: admin-core reposunda `docs/MODUL-YAZMA.md`.
 Repo public; token veya ek ayar gerekmez:
 
 ```bash
-go get github.com/daybull/admin-sdk@latest
+go get github.com/daybull-corp/admin-sdk@latest
 ```

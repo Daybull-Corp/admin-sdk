@@ -1,4 +1,4 @@
-module github.com/daybull/admin-sdk
+module github.com/daybull-corp/admin-sdk
 
 go 1.26.0
 
