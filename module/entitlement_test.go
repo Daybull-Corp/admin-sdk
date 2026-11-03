@@ -55,3 +55,10 @@ func TestValidateEntitlements(t *testing.T) {
 		t.Fatal("özellik ile aynı adlı kota reddedilmeli")
 	}
 }
+
+func TestOver(t *testing.T) {
+	e := Entitlement{Limits: map[string]int{"branches": 3, "users": Unlimited}}
+	if e.Over("branches", 3) || !e.Over("branches", 4) || e.Over("users", 1_000_000) || !e.Over("tanimsiz", 1) || e.Over("tanimsiz", 0) {
+		t.Fatal("Over hatalı")
+	}
+}
