@@ -57,6 +57,14 @@ func (e Entitlement) Allows(key string, count int) bool {
 	return l == Unlimited || count < l
 }
 
+// Over, mevcut sayı kotayı aşıyor mu söyler (plan düşürüldüğünde). Aşan kayıtlar
+// silinmez: modül yenisini eklemeyi engeller, fazlasını salt okunur gösterir ve
+// uyarır; yükseltilince açılır.
+func (e Entitlement) Over(key string, count int) bool {
+	l := e.Limits[key]
+	return l != Unlimited && count > l
+}
+
 // Entitle, manifestten ve lisanstaki haktan modülün haklarını çıkarır:
 // kademenin özellikleri + eklentiyle açılanlar; kademenin kotaları, lisansta
 // değer verilmişse o değer (satıcı kademe + eklenti toplamını yazar).
