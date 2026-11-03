@@ -11,6 +11,8 @@
 //	2: ayrı repo github.com/daybull-corp/admin-sdk/module
 //	3: Manifest.Depends (modül bağımlılığı), Manifest.Settings + Deps.Settings (modül ayarları)
 //	   + (geriye uyumlu) Manifest.Packages + Deps.Package (satış paketleri, lisansla seçilir)
+//	   + (geriye uyumlu) Manifest.Features / Manifest.Limits + Deps.Entitlement + Deps.Registry
+//	     (haklar: kademe, eklentiyle açılan özellik, kota; bkz. entitlement.go)
 package module
 
 import (
@@ -60,6 +62,12 @@ type Manifest struct {
 	// olduğunu imzalı lisans söyler; lisans paket belirtmezse ilki (en dar),
 	// geliştirmede lisans yoksa sonuncusu (en geniş) kullanılır. Boşsa modül paketsizdir.
 	Packages []Package `json:"packages,omitempty" doc:"Satış paketleri (dar → geniş)"`
+	// Features, açılıp kapanabilen özelliklerdir: hangi kademelerde dahil olduğu ve
+	// eklenti olarak ayrıca satılıp satılamayacağı. Modül Deps.Entitlement.Has ile sorar.
+	Features []Feature `json:"features,omitempty" doc:"Özellikler (kademe dahilinde ya da eklentiyle açılır)"`
+	// Limits, sayılabilir haklardır (kota): kademe başına değer, eklentiyle artabilir.
+	// Modül Deps.Entitlement.Limit ile sorar.
+	Limits []Limit `json:"limits,omitempty" doc:"Kotalar (kademe başına değer; -1 sınırsız)"`
 }
 
 // Package, modülün bir satış paketidir. Features, paketin açtığı özellik ve
@@ -93,6 +101,11 @@ type Deps struct {
 	Audit    Auditor
 	Settings Settings // modülün kendi ayarları (Manifest.Settings)
 	Package  Package  // lisansın açtığı paket (Manifest.Packages'tan biri; paketsiz modülde boş)
+	// Entitlement, bu kurulumda modülün hakları: kademe + eklentiyle açılan özellikler + kotalar.
+	Entitlement Entitlement
+	// Registry, bu çekirdekte derlenmiş tüm modüllerin manifestleri (lisansı olmayanlar dahil).
+	// Satıcı modülleri (katalog, kurulum) kademe sırası ve özellikleri buradan okur.
+	Registry []Manifest
 }
 
 // Auditor, denetim kaydı yazar. Kullanıcı ve IP bilgisi ctx'ten otomatik alınır.

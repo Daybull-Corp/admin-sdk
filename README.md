@@ -16,8 +16,11 @@ import "github.com/daybull-corp/admin-sdk/module"
 | `module.Setting` | Panelden değiştirilebilen ayar: `text`, `number` (Min/Max), `bool`, `select` |
 | `module.Deps` | Çekirdeğin verdiği servisler: DB, logger, `Auditor`, `Settings` (modülün kendi ayar değerleri), `Package` (lisanstaki paket) |
 | `module.Protect` | Operasyonu yetkiye bağlayarak kaydeder |
+| `module.Feature`, `module.Limit` | Özellik (hangi kademelerde dahil, eklentiyle satılabilir mi) ve kota (kademe başına değer, -1 sınırsız) — `Manifest.Features`, `Manifest.Limits` |
+| `module.Entitlement` | Modülün bu kurulumdaki hakları (`Deps.Entitlement`): `Has(özellik)`, `Limit(kota)`, `Allows(kota, mevcutSayı)`. Modül kademe adına değil buna bakar |
+| `Deps.Registry` | Derlenmiş tüm modüllerin manifestleri (satıcı modülleri: kademe sırası, özellikler) |
 
-`licensing` paketi: kurulum lisansının biçimi (`Sign`, `Parse`, `LoadKey`). Çekirdek doğrular; satıcı tarafı (lisans aracı, kurulum modülü) imzalar.
+`licensing` paketi: kurulum lisansının biçimi (`Sign`, `Parse`, `LoadKey`). Çekirdek doğrular; satıcı tarafı (lisans aracı, kurulum modülü) imzalar. İçerik v2: `Grants` (modül → kademe, **modül başına bitiş**, eklenti özellikleri, kotalar) + `Limits` (çekirdek kotaları); imzalarken v1 alanları da doldurulur, eski çekirdekler okumaya devam eder.
 
 Modül yazma rehberi: admin-core reposunda `docs/MODUL-YAZMA.md`.
 
