@@ -68,6 +68,8 @@ type Manifest struct {
 	// Limits, sayılabilir haklardır (kota): kademe başına değer, eklentiyle artabilir.
 	// Modül Deps.Entitlement.Limit ile sorar.
 	Limits []Limit `json:"limits,omitempty" doc:"Kotalar (kademe başına değer; -1 sınırsız)"`
+	// Events, modülün bildirim olaylarıdır (bkz. Event). notify bunları Deps.Registry'den okur.
+	Events []Event `json:"events,omitempty" doc:"Bildirim olayları (notify kullanır)"`
 }
 
 // Package, modülün bir satış paketidir. Features, paketin açtığı özellik ve
