@@ -12,6 +12,7 @@ import "fmt"
 //
 // VarsSQL, kaydın mesaj değişkenlerini döner (tek satır, $1 = kayıt kimliği) ve sütunları sırayla:
 // number, customer, phone, total (sayı metni, ör. "1250.00"), date (gösterilecek metin), time (metin).
+// İsteğe bağlı 7. sütun: link (kişiye özel bağlantı, ör. oy sayfası; şablonda {link}).
 // Boş değerler için boş metin döndürün. Tarih/saat biçimi modülde yapılır (ör. to_char(... AT TIME ZONE ...)).
 //
 // DueSQL parametreleri: $1 = şimdi (timestamptz), $2 = notify'ın hatırlatma ayarı (saat).
@@ -20,7 +21,7 @@ type Event struct {
 	Key      string `json:"key" doc:"Benzersiz anahtar (ör. order_ready)"`
 	Label    string `json:"label"`
 	Hint     string `json:"hint" doc:"Ne zaman gider"`
-	Template string `json:"template" doc:"Önerilen metin; yer tutucular {firma} {musteri} {no} {tutar} {tarih} {saat}"`
+	Template string `json:"template" doc:"Önerilen metin; yer tutucular {firma} {musteri} {no} {tutar} {tarih} {saat} {link}"`
 	Reminder bool   `json:"reminder,omitempty" doc:"Zamanlı hatırlatma (notify paketinde reminders özelliği gerekir)"`
 
 	Action  string `json:"-"` // anlık olay: denetim kaydı eylemi (ör. "orders.status")
